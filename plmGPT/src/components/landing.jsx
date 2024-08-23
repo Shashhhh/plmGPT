@@ -32,9 +32,7 @@ function Landing() {
                         SCROLL FOR MORE
                 </p>
                 <ArrowDownwardIcon/>
-
             </div>
-                
             </motion.div>
         
         </div>
