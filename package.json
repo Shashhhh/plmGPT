@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@react-three/fiber": "^8.17.5",
+    "@types/three": "^0.167.2",
+    "framer-motion": "^11.3.30",
+    "shadergradient": "^1.2.14",
+    "three": "^0.167.1"
+  }
+}
