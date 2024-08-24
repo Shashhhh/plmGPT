@@ -3,6 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import '@styles/landingPage.css';
 import { motion } from 'framer-motion';
 import Landing from '../components/landing';
+import ButtonAppBar from '../components/navbar';
+import Info from '../components/info';
+import ToolDieShop from '../components/toolDieShop';
+import ValueProp from '../components/valueProp';
 const container = {
     beginning: {},
     final: { 
@@ -30,13 +34,16 @@ function LandingPage() {
 
     return (
         <motion.div 
-            className='container' 
             variants={container}
             initial="beginning"
             animate="final"
             exit="exit"
         >
-       <Landing/>
+        <ButtonAppBar/>
+        <Landing/>
+        <Info/>
+        <ToolDieShop/>
+        <ValueProp/>
         </motion.div>
     );
 }
