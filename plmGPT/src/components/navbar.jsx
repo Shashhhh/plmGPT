@@ -13,7 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 
-export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePropRef }) {
+export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePropRef, youtubeGPTRef, caseStudyFinderRef}) {
     const [open, setOpen] = React.useState(false);
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
@@ -34,6 +34,16 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
                 <ListItem disablePadding>
                     <StyledListItemButton onClick={() => scrollToSection(valuePropRef)}>
                         <ListItemText primary="Value Prop Helper" sx={{ textAlign: 'center' }} />
+                    </StyledListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <StyledListItemButton onClick={() => scrollToSection(youtubeGPTRef)}>
+                        <ListItemText primary="YoutubeGPT" sx={{ textAlign: 'center' }} />
+                    </StyledListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <StyledListItemButton onClick={() => scrollToSection(caseStudyFinderRef)}>
+                        <ListItemText primary="Case Study Finder" sx={{ textAlign: 'center' }} />
                     </StyledListItemButton>
                 </ListItem>
             </List>
