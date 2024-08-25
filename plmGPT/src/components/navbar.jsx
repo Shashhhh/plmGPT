@@ -76,9 +76,12 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
                     <Toolbar>
                     <Box sx={{ flexGrow: 1 }}>
                         <img 
-                            src='/siemensLogo.png' 
+                            src='/SE_Logo_White.png' 
                             alt="Siemens Logo"
-                            style={{height: '1.5rem'}} 
+                            style={{
+                                height: '1.5rem',
+                                filter: 'brightness(0.8)',
+                            }} 
                         />
                     </Box>
                     <IconButton
