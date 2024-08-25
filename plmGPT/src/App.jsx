@@ -13,7 +13,7 @@ const theme = createTheme({
     secondary: orange,
   },
   typography: {
-    fontFamily: 'Quicksand',
+    fontFamily: 'Inter',
     fontWeightLight: 400,
     fontWeightRegular: 500,
     fontWeightMedium: 600,

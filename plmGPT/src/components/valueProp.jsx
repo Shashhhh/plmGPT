@@ -1,16 +1,12 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import React, { forwardRef } from 'react';
 import LandingTemplate from './landingTemplate';
-function ValueProp() {
-    const navigate = useNavigate();
+const ValueProp= forwardRef((props, ref) => (
+    <LandingTemplate
+        ref={ref}
+        header="Value Prop Helper"
+        description="Description"
+        background="gray"
+    />
+));
 
-    return (
-        <div>
-            <LandingTemplate 
-            header={"Value Prop Helper"} 
-            description={"Description"}
-            background={"linear-gradient(45deg, #ff8a00, #e52e71)"}/>
-        </div>
-    );
-}
-export default (ValueProp);
+export default ValueProp;

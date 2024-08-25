@@ -23,17 +23,19 @@ function Landing() {
     return (
         <div className='introContainer'>
         <Gradient/>
-            <motion.div variants={item} className='textContainer'>
-                <h1 className='welcomeHeader'>
+            <div className='textContainer'>
+                <motion.h1  variants={item}  className='welcomeHeader'>
                     THE SIEMENS GPT EXPERIENCE
-                </h1>
+                </motion.h1>
             <div className='scrollContainer'>
                 <p className='scrollText'>
                         SCROLL FOR MORE
                 </p>
                 <ArrowDownwardIcon/>
+
             </div>
-            </motion.div>
+                
+            </div>
         
         </div>
     );

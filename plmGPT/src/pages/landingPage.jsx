@@ -1,12 +1,11 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import '@styles/landingPage.css';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import Landing from '../components/landing';
 import ButtonAppBar from '../components/navbar';
+import Landing from '../components/landing';
 import Info from '../components/info';
 import ToolDieShop from '../components/toolDieShop';
 import ValueProp from '../components/valueProp';
+
 const container = {
     beginning: {},
     final: { 
@@ -17,20 +16,15 @@ const container = {
     exit: { opacity: 0 }
 };
 
-const item = {
-    beginning: { opacity: 0, y: -20 },
-    final: { 
-        opacity: 1, 
-        y: 0,
-        transition: {
-            duration: 1,
-            ease: 'easeOut' 
-        }
-    }
-};
-
 function LandingPage() {
-    const navigate = useNavigate();
+    const toolDieShopRef = useRef(null);
+    const valuePropRef = useRef(null);
+
+    const scrollToSection = (ref) => {
+        if (ref.current) {
+            ref.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     return (
         <motion.div 
@@ -39,12 +33,15 @@ function LandingPage() {
             animate="final"
             exit="exit"
         >
-        <ButtonAppBar/>
-        <Landing/>
-        <Info/>
-        <ToolDieShop/>
-        <ValueProp/>
+            <ButtonAppBar scrollToSection={scrollToSection} 
+                        toolDieShopRef={toolDieShopRef} 
+                        valuePropRef={valuePropRef} />
+            <Landing/>
+            <Info/>
+            <ToolDieShop ref={toolDieShopRef} />
+            <ValueProp ref={valuePropRef} />
         </motion.div>
     );
 }
-export default (LandingPage);
+
+export default LandingPage;

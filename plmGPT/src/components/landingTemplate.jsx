@@ -1,8 +1,7 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import React, { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import PillButton from './pillButton';
-import '@styles/landingTemplate.css'
+import '@styles/landingTemplate.css';
 
 const item = {
     beginning: { opacity: 0, y: -20 },
@@ -16,26 +15,22 @@ const item = {
     }
 };
 
-function LandingTemplate({ header , description, background }) {
-    const navigate = useNavigate();
+const LandingTemplate = forwardRef(({ header, description, background }, ref) => (
+    <div className='templateContainer' style={{ background }} ref={ref}>
+        <motion.div variants={item} className='textContainer'>
+            <h1 className='welcomeHeader'>
+                {header}
+            </h1>
+            <p className='helperText'>
+                {description}
+            </p>
+            <div className="buttonContainer">
+                <PillButton>
+                    TRY ME
+                </PillButton>
+            </div>
+        </motion.div>
+    </div>
+));
 
-    return (
-        <div className='templateContainer' style={{ background }}>
-            <motion.div variants={item} className='textContainer'>
-                <h1 className='welcomeHeader'>
-                    {header}
-                </h1>
-                <p className='helperText'>
-                    {description}
-                </p>
-                <div className="buttonContainer">
-                    <PillButton>
-                        TRY ME
-                    </PillButton>
-                </div>
-            </motion.div>
-        
-        </div>
-    );
-}
-export default (LandingTemplate);
+export default LandingTemplate;

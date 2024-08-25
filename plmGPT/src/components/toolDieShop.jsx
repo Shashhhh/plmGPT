@@ -1,13 +1,13 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import React, { forwardRef } from 'react';
 import LandingTemplate from './landingTemplate';
-function ToolDieShop() {
-    const navigate = useNavigate();
 
-    return (
-        <div>
-            <LandingTemplate header={"Tool And Die Shop"} description={"Description"}/>
-        </div>
-    );
-}
-export default (ToolDieShop);
+const ToolDieShop = forwardRef((props, ref) => (
+    <LandingTemplate
+        ref={ref}
+        header="Tool And Die Shop"
+        description="Description"
+        background="black"
+    />
+));
+
+export default ToolDieShop;
