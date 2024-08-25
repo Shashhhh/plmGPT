@@ -12,10 +12,10 @@
         position: relative;
         font-size: 3.25rem;
         font-weight: bold;
-        width: 75%;
+        width: 50%;
         margin: 0;
         margin-bottom: 25px;
-        margin-left: 50%;
+        margin-left: 12rem;
         line-height: 1.2;
         z-index: 1;
     }
@@ -23,15 +23,15 @@
     .helperText {
         position: relative;
         margin: 0;
-        width: 75%;
+        width: 50%;
         font-size: 1.25rem;
-        margin-left: 50%;
+        margin-left: 12rem;
         margin-bottom: 50px;
         z-index: 1;
     }
     .buttonContainer {
         position: relative;
         margin: 0;
-        margin-left: 50%;
+        margin-left: 12rem;
     }
     }

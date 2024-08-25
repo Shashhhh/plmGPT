@@ -20,7 +20,10 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
     };
 
     const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
-        borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        '& .MuiTypography-root': {
+            fontWeight: theme.typography.fontWeightLight,
+        },
     }));
 
     const DrawerList = (
@@ -28,7 +31,7 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
             <List>
                 <ListItem disablePadding>
                     <StyledListItemButton onClick={() => scrollToSection(toolDieShopRef)}>
-                        <ListItemText primary="Tool and Die Shop" sx={{ textAlign: 'center' }} />
+                        <ListItemText primary="Tool and Die Shop" sx={{ textAlign: 'center'}} />
                     </StyledListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
@@ -71,20 +74,24 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
             <Box sx={{ width: '100%' }}>
                 <AppBar position="fixed" color="transparent" enableColorOnDark >
                     <Toolbar>
-                        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                            Siemens Logo
-                        </Typography>
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            sx={{ mr: 2 }}
-                            onClick={toggleDrawer(true)}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                    </Toolbar>
+                    <Box sx={{ flexGrow: 1 }}>
+                        <img 
+                            src='/siemensLogo.png' 
+                            alt="Siemens Logo"
+                            style={{height: '1.5rem'}} 
+                        />
+                    </Box>
+                    <IconButton
+                        size="large"
+                        edge="end"
+                        color="inherit"
+                        aria-label="menu"
+                        onClick={toggleDrawer(true)}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                </Toolbar>
+
                 </AppBar>
                 <Drawer
                     anchor="right"
