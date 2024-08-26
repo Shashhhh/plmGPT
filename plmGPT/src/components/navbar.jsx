@@ -2,7 +2,6 @@ import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Drawer from '@mui/material/Drawer';
@@ -10,19 +9,31 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import PillButton from './pillButton';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { Button, Menu, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePropRef, youtubeGPTRef, caseStudyFinderRef}) {
+export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePropRef, youtubeGPTRef, caseStudyFinderRef }) {
     const [open, setOpen] = React.useState(false);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
+    };
+
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
     };
 
     const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         '& .MuiTypography-root': {
-            fontWeight: theme.typography.fontWeightLight,
+            fontWeight: theme.typography.fontWeightBold,
         },
     }));
 
@@ -31,7 +42,7 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
             <List>
                 <ListItem disablePadding>
                     <StyledListItemButton onClick={() => scrollToSection(toolDieShopRef)}>
-                        <ListItemText primary="Tool and Die Shop" sx={{ textAlign: 'center'}} />
+                        <ListItemText primary="Tool and Die Shop" sx={{ textAlign: 'center' }} />
                     </StyledListItemButton>
                 </ListItem>
                 <ListItem disablePadding>
@@ -72,29 +83,80 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
     return (
         <ThemeProvider theme={darkTheme}>
             <Box sx={{ width: '100%' }}>
-                <AppBar position="fixed" color="transparent" enableColorOnDark >
+                <AppBar position="fixed" color="transparent" enableColorOnDark>
                     <Toolbar>
-                    <Box sx={{ flexGrow: 1 }}>
-                        <img 
-                            src='/SE_Logo_White.png' 
+                        <img
+                            src='/SE_Logo_White.png'
                             alt="Siemens Logo"
                             style={{
                                 height: '1.5rem',
                                 filter: 'brightness(0.8)',
-                            }} 
+                                marginRight: 50,
+                            }}
                         />
-                    </Box>
-                    <IconButton
-                        size="large"
-                        edge="end"
-                        color="inherit"
-                        aria-label="menu"
-                        onClick={toggleDrawer(true)}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                </Toolbar>
-
+                        <Button
+                            variant="text"
+                            sx={{ color: 'inherit', mr: 1}}
+                            onMouseEnter={handleMenuOpen}
+                        >
+                            Sales
+                        </Button>
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={handleMenuClose}
+                            MenuListProps={{
+                                onMouseLeave: handleMenuClose,
+                            }}
+                        >
+                            <MenuItem onClick={handleMenuClose}>Item 1</MenuItem>
+                            <MenuItem onClick={handleMenuClose}>Item 2</MenuItem>
+                            <MenuItem onClick={handleMenuClose}>Item 3</MenuItem>
+                        </Menu>
+                        <Button
+                            variant="text"
+                            sx={{ color: 'inherit', mr: 1}}
+                            onMouseEnter={handleMenuOpen}
+                        >
+                            I don't know
+                        </Button>
+                        <Button
+                            variant="text"
+                            sx={{ color: 'inherit', mr: 1}}
+                        >
+                            About
+                        </Button>
+                        <Button
+                            variant="text"
+                            sx={{ color: 'inherit', mr: 'auto'}}
+                        >
+                            Questions
+                        </Button>
+                        <PillButton>
+                            Support
+                        </PillButton>
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={handleMenuClose}
+                            MenuListProps={{
+                                onMouseLeave: handleMenuClose,
+                            }}
+                        >
+                            <MenuItem onClick={handleMenuClose}>Item 1</MenuItem>
+                            <MenuItem onClick={handleMenuClose}>Item 2</MenuItem>
+                            <MenuItem onClick={handleMenuClose}>Item 3</MenuItem>
+                        </Menu>
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={toggleDrawer(true)}
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    </Toolbar>
                 </AppBar>
                 <Drawer
                     anchor="right"
@@ -103,8 +165,8 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
                     sx={{
                         top: '64px',
                         '& .MuiDrawer-paper': {
-                            backgroundColor: "black",
-                            top: '64px', 
+                            backgroundColor: "transparent",
+                            top: '64px',
                         },
                     }}
                 >

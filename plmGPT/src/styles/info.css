@@ -10,16 +10,20 @@
     overflow: hidden;
     padding-top: 5rem;
     .infoHeader{
+        position: relative;
         font-size: 3rem;
         margin-top: 2rem;
         text-align: center;
+        z-index: 1;
     }
     .infoTextContainer {
         display: flex;
+        position: relative;
         flex-direction: row;
         width: 100%;
         font-size: 2rem;
         gap: 5rem;
+        z-index: 1;
     }
     
     .infoTextContainer p {

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import ButtonAppBar from '../components/navbar';
 import Landing from '../components/landing';
 import Info from '../components/info';
+import About from '../components/about';
 import { ToolDieShop, ValueProp, YoutubeGPT, CaseStudyFinder } from '../components/landingComponents';
 
 const container = {
@@ -45,6 +46,7 @@ function LandingPage() {
             <ValueProp ref={valuePropRef} />
             <YoutubeGPT ref = {youtubeGPTRef}/>
             <CaseStudyFinder ref={caseStudyFinderRef}/>
+            <About/>
         </motion.div>
     );
 }

@@ -1,0 +1,33 @@
+.aboutContainer {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    flex-direction: column;
+    background-color: black;
+    overflow: hidden;
+    padding-top: 5rem;
+    .aboutHeader{
+        position: relative;
+        font-size: 4rem;
+        margin-top: 1rem;
+        text-align: center;
+        z-index: 1;
+    }
+    .infoTextContainer {
+        display: flex;
+        position: relative;
+        flex-direction: row;
+        width: 100%;
+        font-size: 2rem;
+        gap: 5rem;
+        z-index: 1;
+    }
+    
+    .infoTextContainer p {
+        margin: 0 1rem;
+    }
+    
+}

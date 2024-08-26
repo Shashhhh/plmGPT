@@ -19,11 +19,10 @@
         line-height: 1.2;
         z-index: 1;
     }
-    
     .helperText {
         position: relative;
         margin: 0;
-        width: 50%;
+        width: 30%;
         font-size: 1.25rem;
         margin-left: 12rem;
         margin-bottom: 50px;

@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import { motion } from 'framer-motion';
 import PillButton from './pillButton';
 import '@styles/landingTemplate.css';
+import { useNavigate } from 'react-router-dom';
 
 const item = {
     beginning: { opacity: 0, y: -20 },
@@ -15,22 +16,25 @@ const item = {
     }
 };
 
-const LandingTemplate = forwardRef(({ header, description, background }, ref) => (
-    <div className='templateContainer' style={{ background }} ref={ref}>
-        <motion.div variants={item} className='textContainer'>
-            <h1 className='welcomeHeader'>
-                {header}
-            </h1>
-            <p className='helperText'>
-                {description}
-            </p>
-            <div className="buttonContainer">
-                <PillButton>
-                    TRY ME
-                </PillButton>
-            </div>
-        </motion.div>
-    </div>
-));
+const LandingTemplate = forwardRef(({ header, description, background, path }, ref) => {
+    const navigate = useNavigate();
+    return (
+        <div className='templateContainer' style={{ background }} ref={ref}>
+            <motion.div variants={item} className='textContainer'>
+                <h1 className='welcomeHeader'>
+                    {header}
+                </h1>
+                <p className='helperText'>
+                    {description}
+                </p>
+                <div className="buttonContainer">
+                    <PillButton onClick={() => navigate(`${path}?header=${encodeURIComponent(header)}`)}>
+                        TRY ME
+                    </PillButton>
+                </div>
+            </motion.div>
+        </div>
+    );
+});
 
 export default LandingTemplate;
