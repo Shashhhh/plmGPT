@@ -18,8 +18,17 @@ const item = {
 
 const LandingTemplate = forwardRef(({ header, description, background, path }, ref) => {
     const navigate = useNavigate();
+    
     return (
-        <div className='templateContainer' style={{ background }} ref={ref}>
+        <div
+            className='templateContainer'
+            style={{
+                background:`url(${background})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+            }}
+            ref={ref}
+        >
             <motion.div variants={item} className='textContainer'>
                 <h1 className='welcomeHeader'>
                     {header}

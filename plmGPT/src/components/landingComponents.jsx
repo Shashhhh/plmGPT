@@ -6,7 +6,7 @@ const ToolDieShop = forwardRef((props, ref) => (
         ref={ref}
         header="Tool And Die Shop"
         description="Description"
-        background="black"
+        background="/toolshop.jpg"
     />
 ));
 

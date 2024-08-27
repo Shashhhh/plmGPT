@@ -83,7 +83,11 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
     return (
         <ThemeProvider theme={darkTheme}>
             <Box sx={{ width: '100%' }}>
-                <AppBar position="fixed" color="transparent" enableColorOnDark>
+                <AppBar 
+                position="fixed" 
+                color="transparent" enableColorOnDark
+                sx= {{backdropFilter: 'blur(10px)'}}
+                 >
                     <Toolbar>
                         <img
                             src='/SE_Logo_White.png'
