@@ -23,12 +23,14 @@ const LandingTemplate = forwardRef(({ header, description, background, path }, r
         <div
             className='templateContainer'
             style={{
-                background:`url(${background})`,
+                background: `url(${background})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
+                position: 'relative',
             }}
             ref={ref}
         >
+            <div className="overlay"></div> 
             <motion.div variants={item} className='textContainer'>
                 <h1 className='welcomeHeader'>
                     {header}
