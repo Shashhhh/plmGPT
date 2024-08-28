@@ -29,11 +29,16 @@
             align-items: center;
             .count {
                 font-size: 5em;
+                font-weight: bold;
                 margin: 10px;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
             }
         }
         .statContainer p {
             margin: 0;
+        }
+        .statContainer p span {
+            font-weight: bold;
         }
     }
 }

@@ -22,13 +22,13 @@ function Info() {
                     <div className='statContainer'>
                         {inView && <CountUp className="count" start={0} end={300} duration={3}/>}
                         <p>
-                            USED BY 300 PARTNERS IN THE SIEMENS NETWORK
+                            USED BY <span>300</span> PARTNERS IN THE SIEMENS NETWORK
                         </p>
                     </div>  
                     <div className='statContainer'>
                         {inView && <CountUp className="count" start={0} end={5} duration={3}/>}
                         <p>
-                            USED IN 5 DIFFERENT COUNTRIES
+                            USED IN <span>5</span> DIFFERENT COUNTRIES
                         </p>
                     </div>
                 </div>
