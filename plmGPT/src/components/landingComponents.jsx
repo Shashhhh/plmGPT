@@ -7,6 +7,7 @@ const ToolDieShop = forwardRef((props, ref) => (
         header="Tool And Die Shop"
         description="Description"
         background="/toolshop.jpg"
+        path='/chat?assistantChoice=Machinist'
     />
 ));
 
@@ -33,7 +34,7 @@ const CaseStudyFinder = forwardRef((props, ref) => (
         header= "Case Study Finder"
         description="A specialized AI assistant designed to help users find and present company-specific case studies."
         background= "gray"
-        path='/chat?assistantChoice=Machinist'
+        path='/chat?assistantChoice=Case_study_finder'
     />
 ));
 export { ToolDieShop, ValueProp, YoutubeGPT, CaseStudyFinder};

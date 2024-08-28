@@ -89,15 +89,15 @@ export default function Avatars() {
         name="Jason Lin" 
         avatarSrc="/jason_avatar.png"
         description="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
-        linkedinUrl="www.linkedin.com/in/jason-lin129"
+        linkedinUrl="https://www.linkedin.com/in/jason-lin129"
         githubUrl="https://github.com/Shashhhh"
         avatarRotation={-3}
       />
       <ProfileCard 
         name="Thomas King" 
-        avatarSrc="/vite.svg"
+        avatarSrc="/TJKing.jpg"
         description="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
-        linkedinUrl="www.linkedin.com/in/thomasj-king"
+        linkedinUrl="https://www.linkedin.com/in/thomasj-king"
         avatarRotation={0}
       />
     </Stack>

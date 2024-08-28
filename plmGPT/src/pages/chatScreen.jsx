@@ -14,7 +14,6 @@ const location = useLocation();
   const [renderedMessages, setRenderedMessages] = useState([]);
   const assistantChoice = new URLSearchParams(location.search).get('assistantChoice');
   const chatScreenRef = useRef(null);
-  const header = new URLSearchParams(location.search).get('header');
   useEffect(() => {
     const ws = new WebSocket(`wss://backend-ckmm.onrender.com/ws/stream/${assistantChoice}/`);
     ws.onopen = () => {
@@ -104,7 +103,7 @@ const location = useLocation();
     <div className="container">
       <div className="chat">
         <div className='pageHeader'>
-          <h3>{header}</h3>
+          <h3>TEMP</h3>
 
         </div>
         <div className='chatScreen' ref={chatScreenRef}>

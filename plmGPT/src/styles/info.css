@@ -1,7 +1,6 @@
 .infoContainer {
     position: relative;
     display: flex;
-    justify-content: flex-start;
     align-items: center;
     height: 50vh;
     width: 100%;
@@ -11,10 +10,11 @@
     padding-top: 5rem;
     .infoHeader{
         position: relative;
-        font-size: 3rem;
-        margin-top: 2rem;
+        font-size: 2.5rem;  
         text-align: center;
         z-index: 1;
+        margin: 0;
+        margin-bottom: 3rem;
     }
     .infoTextContainer {
         display: flex;

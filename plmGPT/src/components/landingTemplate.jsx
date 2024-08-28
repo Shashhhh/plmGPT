@@ -39,7 +39,7 @@ const LandingTemplate = forwardRef(({ header, description, background, path }, r
                     {description}
                 </p>
                 <div className="buttonContainer">
-                    <PillButton onClick={() => navigate(`${path}?header=${encodeURIComponent(header)}`)}>
+                    <PillButton onClick={() => navigate(path)}>
                         TRY ME
                     </PillButton>
                 </div>
