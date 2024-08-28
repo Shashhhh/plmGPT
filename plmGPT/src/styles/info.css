@@ -2,12 +2,12 @@
     position: relative;
     display: flex;
     align-items: center;
+    justify-content: center;
     height: 50vh;
     width: 100%;
     flex-direction: column;
-    background-color: rgb(2, 2, 68);
+    background-color: black;
     overflow: hidden;
-    padding-top: 5rem;
     .infoHeader{
         position: relative;
         font-size: 2.5rem;  
@@ -21,13 +21,19 @@
         position: relative;
         flex-direction: row;
         width: 100%;
-        font-size: 2rem;
-        gap: 5rem;
+        gap: 10rem;
         z-index: 1;
+        .statContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .count {
+                font-size: 5em;
+                margin: 10px;
+            }
+        }
+        .statContainer p {
+            margin: 0;
+        }
     }
-    
-    .infoTextContainer p {
-        margin: 0 1rem;
-    }
-    
 }

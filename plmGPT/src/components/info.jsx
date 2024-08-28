@@ -1,56 +1,40 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; 
 import { motion } from 'framer-motion';
-import '@styles/info.css'
-import InfoGradient from './infoShaderGradient';
-import { Box} from '@mui/material';
-const item = {
-    beginning: { opacity: 0, y: -20 },
-    final: { 
-        opacity: 1, 
-        y: 0,
-        transition: {
-            duration: 1,
-            ease: 'easeOut' 
-        }
-    }
-};
+import { useInView } from 'react-intersection-observer';
+import '@styles/info.css';
+import CountUp from 'react-countup';
+
 function Info() {
+    const { ref, inView } = useInView({
+        triggerOnce: true,
+        threshold: 1,
+    });
 
     return (
         <div className='infoContainer'>
-            <InfoGradient/>
-            <motion.div variants={item} className='textContainer'>
-            <h5 className='infoHeader'>
-                Siemens AI Tools 
-            </h5>
-            <div className='infoTextContainer'>
-                    <Box 
-                    border={1}
-                    padding={2} 
-                    borderRadius={4} 
-                    marginBottom={2}
-                    sx={{width: 300, height: 200
-                    }}
-                    > 
+            <motion.div 
+                ref={ref} 
+                initial="beginning" 
+                animate={inView ? 'final' : 'beginning'} 
+                className='textContainer'
+            >
+                <div className='infoTextContainer'>
+                    <div className='statContainer'>
+                        {inView && <CountUp className="count" start={0} end={300} duration={3}/>}
                         <p>
-                            used by 300 partners within the Siemens network.
+                            USED BY 300 PARTNERS IN THE SIEMENS NETWORK
                         </p>
-                    </Box>
-                    <Box 
-                    border={1} 
-                    padding={2} 
-                    borderRadius={4}
-                    sx={{width: 300, height: 200}}
-                    > 
+                    </div>  
+                    <div className='statContainer'>
+                        {inView && <CountUp className="count" start={0} end={5} duration={3}/>}
                         <p>
-                            used across 5 continents
+                            USED IN 5 DIFFERENT COUNTRIES
                         </p>
-                    </Box>
+                    </div>
                 </div>
             </motion.div>
-        
         </div>
     );
 }
-export default (Info);
+
+export default Info;

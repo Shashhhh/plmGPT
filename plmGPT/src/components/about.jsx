@@ -1,24 +1,20 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, {useRef} from 'react';
+import { motion , useInView} from 'framer-motion';
 import '@styles/about.css'
 import Avatars from './avatars';
-const item = {
-    beginning: { opacity: 0, y: -20 },
-    final: { 
-        opacity: 1, 
-        y: 0,
-        transition: {
-            duration: 1,
-            ease: 'easeOut' 
-        }
-    }
-};
+import {spring} from './animationVariants';
 
 function About() {
-
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true });
     return (
         <div className='aboutContainer'>
-            <motion.div variants={item} className='textContainer'>
+            <motion.div 
+            variants={spring} 
+            className='textContainer'
+            ref={ref}
+            initial="offscreen" 
+            animate={isInView ? "onscreen" : "offscreen"}>
             <h5 className='aboutHeader'>
                 About Us
             </h5>

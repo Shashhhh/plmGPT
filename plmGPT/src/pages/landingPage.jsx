@@ -6,16 +6,6 @@ import Info from '../components/info';
 import About from '../components/about';
 import { ToolDieShop, ValueProp, YoutubeGPT, CaseStudyFinder } from '../components/landingComponents';
 
-const container = {
-    beginning: {},
-    final: { 
-        transition: { 
-            staggerChildren: 0.3
-        } 
-    },
-    exit: { opacity: 0 }
-};
-
 function LandingPage() {
     const toolDieShopRef = useRef(null);
     const valuePropRef = useRef(null);
@@ -29,17 +19,15 @@ function LandingPage() {
     };
 
     return (
-        <motion.div 
-            variants={container}
-            initial="beginning"
-            animate="final"
-            exit="exit"
+        <div 
         >
-            <ButtonAppBar scrollToSection={scrollToSection} 
-                        toolDieShopRef={toolDieShopRef} 
-                        valuePropRef={valuePropRef}
-                        youtubeGPTRef={youtubeGPTRef}
-                        caseStudyFinderRef={caseStudyFinderRef} />
+            <ButtonAppBar 
+                scrollToSection={scrollToSection} 
+                toolDieShopRef={toolDieShopRef} 
+                valuePropRef={valuePropRef}
+                youtubeGPTRef={youtubeGPTRef}
+                caseStudyFinderRef={caseStudyFinderRef} 
+            />
             <Landing/>
             <Info/>
             <ToolDieShop ref={toolDieShopRef} />
@@ -47,7 +35,7 @@ function LandingPage() {
             <YoutubeGPT ref = {youtubeGPTRef}/>
             <CaseStudyFinder ref={caseStudyFinderRef}/>
             <About/>
-        </motion.div>
+        </div>
     );
 }
 
