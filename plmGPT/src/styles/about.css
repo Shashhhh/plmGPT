@@ -12,8 +12,8 @@
     .aboutHeader{
         position: relative;
         font-size: 4rem;
-        margin-top: 1rem;
-        margin-bottom: 50px;
+        margin-top: 0;
+        margin-bottom: 4rem;
         text-align: center;
         z-index: 1;
     }
