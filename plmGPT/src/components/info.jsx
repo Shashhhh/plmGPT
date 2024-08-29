@@ -20,11 +20,17 @@ function Info() {
             >
                 <div className='infoTextContainer'>
                     <div className='statContainer'>
-                        {inView && <CountUp className="count" start={0} end={300} duration={3}/>}
+                        {inView && <CountUp className="count" start={0} end={450} duration={3} suffix="+"/>}
                         <p>
-                            USED BY <span>300</span> PARTNERS IN THE SIEMENS NETWORK
+                            USED BY <span>450+</span> PARTNERS PROFESSIONALS
                         </p>
                     </div>  
+                    <div className='statContainer'>
+                        {inView && <CountUp className="count" start={0} end={27} duration={3} suffix="%"/>}
+                        <p>
+                            INCREASED SALES PROFESSIONALS BANDWIDTH BY OVER  <span>27%</span> 
+                        </p>
+                    </div>
                     <div className='statContainer'>
                         {inView && <CountUp className="count" start={0} end={5} duration={3}/>}
                         <p>
