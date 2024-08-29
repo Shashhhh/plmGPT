@@ -15,7 +15,7 @@ const ProfileCard = ({
 }) => (
   <Card sx={{ 
     width: 275,
-    height: 500,
+    height: 550,
     display: 'flex',
     flexDirection: 'column', 
   }}>
@@ -88,7 +88,7 @@ export default function Avatars() {
       <ProfileCard 
         name="Jason Lin" 
         avatarSrc="/jason_avatar.png"
-        description="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
+        description="I’m a junior at the University of Michigan, majoring in Computer Science with minors in Electrical Engineering and Statistics. I do computers, and coding is my passion. I’m on the lookout for internship opportunities where I can put my skills to the test, work on exciting projects, and learn a lot along the way."
         linkedinUrl="https://www.linkedin.com/in/jason-lin129"
         githubUrl="https://github.com/Shashhhh"
         avatarRotation={-3}
@@ -96,7 +96,7 @@ export default function Avatars() {
       <ProfileCard 
         name="Thomas King" 
         avatarSrc="/TJKing.jpg"
-        description="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica"
+        description="Hi, I am a senior at Saint Louis University studying Marketing and Data Analytics. I am a driven sales professional with a freshperspective on sales automation and a deep passion for innovation. With several year of experience in software sales, I'e recongized the overwhelming potential of AI in ehancing "
         linkedinUrl="https://www.linkedin.com/in/thomasj-king"
         avatarRotation={0}
       />

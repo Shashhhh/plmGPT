@@ -20,7 +20,7 @@ function Landing() {
                     variants={spring} 
                     className='welcomeHeader'
                 >
-                    THE SIEMENS GPT EXPERIENCE
+                    SIEMENS GPT EXPERIENCE
                 </motion.h1>
                 <div className='scrollContainer'>
                     <p className='scrollText'>
