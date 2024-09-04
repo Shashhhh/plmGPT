@@ -149,14 +149,14 @@ function Chat() {
                     exit="exit"
                 >
                     <span style={{ fontWeight: 'bold' }}>
-                        Survey Disclaimer
+                      Welcome!
                     </span>
                     <p>
-                        Thank you for taking the time to participate in our survey. We want to assure you that your responses will be used exclusively for general analytical purposes. No personal information that could identify you individually will be collected. Your privacy is important to us, and we are committed to maintaining the confidentiality of your responses.
+                    Welcome to the Siemens AI Chat Screen! Ready to explore innovative solutions and drive your projects forward? Click the "Let's Begin" button to get started and unlock the full potential of our tools and insights!
                     </p>
                     <form method="dialog">
                         <div className="dialogButtonContainer">
-                            <PillButton onClick={handleOverlay}>Start Survey</PillButton>
+                            <PillButton onClick={handleOverlay}>Let's Begin</PillButton>
                         </div>
                     </form>
                 </motion.dialog>
