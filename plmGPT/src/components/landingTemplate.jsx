@@ -16,6 +16,7 @@ const LandingTemplate = forwardRef(({ header, description, background, path }, r
                 background: `url(${background})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
                 position: 'relative',
             }}
             ref={ref}

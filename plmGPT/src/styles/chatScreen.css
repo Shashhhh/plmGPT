@@ -198,6 +198,15 @@
           background-color: transparent;
           transition: 0.3s;
         }
+        .disabledButton {
+          background-color: transparent;
+          cursor: not-allowed;
+        }
+        
+        .sendButton:disabled {
+          background-color: transparent;
+        }
+        
       }
     
     }

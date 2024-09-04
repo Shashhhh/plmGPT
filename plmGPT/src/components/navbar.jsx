@@ -87,7 +87,7 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
                 position="fixed" 
                 color="transparent" enableColorOnDark
                 sx= {{backdropFilter: 'blur(10px)'}}
-                 >
+                >
                     <Toolbar>
                         <img
                             src='/SE_Logo_White.png'
@@ -95,47 +95,9 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
                             style={{
                                 height: '1.5rem',
                                 filter: 'brightness(0.8)',
-                                marginRight: 50,
+                                marginRight: 'auto',
                             }}
                         />
-                        <Button
-                            variant="text"
-                            sx={{ color: 'inherit', mr: 1}}
-                            onMouseEnter={handleMenuOpen}
-                        >
-                            Sales
-                        </Button>
-                        <Menu
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={handleMenuClose}
-                            MenuListProps={{
-                                onMouseLeave: handleMenuClose,
-                            }}
-                        >
-                            <MenuItem onClick={handleMenuClose}>Item 1</MenuItem>
-                            <MenuItem onClick={handleMenuClose}>Item 2</MenuItem>
-                            <MenuItem onClick={handleMenuClose}>Item 3</MenuItem>
-                        </Menu>
-                        <Button
-                            variant="text"
-                            sx={{ color: 'inherit', mr: 1}}
-                            onMouseEnter={handleMenuOpen}
-                        >
-                            I don't know
-                        </Button>
-                        <Button
-                            variant="text"
-                            sx={{ color: 'inherit', mr: 1}}
-                        >
-                            About
-                        </Button>
-                        <Button
-                            variant="text"
-                            sx={{ color: 'inherit', mr: 'auto'}}
-                        >
-                            Questions
-                        </Button>
                         <PillButton>
                             Support
                         </PillButton>
@@ -180,3 +142,36 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
         </ThemeProvider>
     );
 }
+/*
+<Button
+                            variant="text"
+                            sx={{ color: 'inherit', mr: 1}}
+                            onMouseEnter={handleMenuOpen}
+                        >
+                            Sales
+                        </Button>
+                        <Menu
+                            anchorEl={anchorEl}
+                            open={Boolean(anchorEl)}
+                            onClose={handleMenuClose}
+                            MenuListProps={{
+                                onMouseLeave: handleMenuClose,
+                            }}
+                        >
+                            <MenuItem onClick={handleMenuClose}>Item 1</MenuItem>
+                            <MenuItem onClick={handleMenuClose}>Item 2</MenuItem>
+                            <MenuItem onClick={handleMenuClose}>Item 3</MenuItem>
+                        </Menu>
+                        <Button
+                            variant="text"
+                            sx={{ color: 'inherit', mr: 1}}
+                        >
+                            About
+                        </Button>
+                        <Button
+                            variant="text"
+                            sx={{ color: 'inherit', mr: 'auto'}}
+                        >
+                            Questions
+                        </Button>
+*/

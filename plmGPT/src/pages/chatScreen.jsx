@@ -134,7 +134,10 @@ const location = useLocation();
                 }
               }}
             />
-            <button className="sendButton" onClick={handleSend}>
+            <button 
+            className={`sendButton ${loading ? 'disabledButton' : ''}`} 
+            onClick={handleSend} 
+            disabled={loading}>
               <FaArrowUp className='arrowIcon' />
             </button>
           </div>

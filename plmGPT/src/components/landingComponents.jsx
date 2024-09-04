@@ -17,6 +17,7 @@ const ValueProp = forwardRef((props, ref) => (
         header="Value Prop Helper"
         description="Description"
         background="gray"
+        path='/chat?assistantChoice=Value_prop'
     />
 ));
 
@@ -25,7 +26,7 @@ const YoutubeGPT = forwardRef((props, ref) => (
         ref={ref}
         header="YoutubeGPT"
         description="A specialized AI assistant designed to efficiently identify and recommend Siemens YouTube videos tailored to specific user needs and contexts."
-        background="black"
+        background="/youtubeGPTPic.jpg"
     />
 ));
 const CaseStudyFinder = forwardRef((props, ref) => (
@@ -33,7 +34,7 @@ const CaseStudyFinder = forwardRef((props, ref) => (
         ref= {ref}
         header= "Case Study Finder"
         description="A specialized AI assistant designed to help users find and present company-specific case studies."
-        background= "gray"
+        background= "/caseStudyPic.png"
         path='/chat?assistantChoice=Case_study_finder'
     />
 ));
