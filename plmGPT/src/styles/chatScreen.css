@@ -281,3 +281,32 @@
       opacity: 0.25;
     }
   }
+  .passwordContainer {
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    height: 35vh;
+    padding: 0px 1rem;
+    border-radius: 11px;
+    position: relative;    
+    box-shadow: rgb(38, 38, 38) 0px 1px 0px 0px inset;
+    border: 0.5px solid rgb(31, 31, 31);
+    background-color: #1f1f1f;
+    .submitButton {
+      margin-top: auto;
+      margin-bottom: 0.5rem;
+      width: 100%;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #099;
+      color: white;
+      transition: background-color 0.3s, color 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .submitButton:hover {
+      background-color: rgba(255, 255, 255, 1);
+      color: black;
+    }
+  }
