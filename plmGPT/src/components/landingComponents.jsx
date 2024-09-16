@@ -27,6 +27,7 @@ const YoutubeGPT = forwardRef((props, ref) => (
         header="YoutubeGPT"
         description="A specialized AI assistant designed to efficiently identify and recommend Siemens YouTube videos tailored to specific user needs and contexts."
         background="/youtubeGPTPic.jpg"
+        path="/chat?assistantChoice=YoutubeGPT"
     />
 ));
 const CaseStudyFinder = forwardRef((props, ref) => (
