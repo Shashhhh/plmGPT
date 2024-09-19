@@ -16,7 +16,7 @@ const ValueProp = forwardRef((props, ref) => (
         ref={ref}
         header="Value Prop Helper"
         description="Description"
-        background="gray"
+        background="/valuePropImg.png"
         path='/chat?assistantChoice=Value_prop'
     />
 ));
