@@ -11,15 +11,15 @@ import PillButton from '../components/pillButton';
 
 function Chat() {
   const location = useLocation();
+  const assistantChoice = new URLSearchParams(location.search).get('assistantChoice');
   const [messages, setMessages] = useState(() => {
-    const storedMessages = sessionStorage.getItem('chatMessages');
+    const storedMessages = sessionStorage.getItem(`chatMessages_${assistantChoice}`);
     return storedMessages ? JSON.parse(storedMessages) : [];
   });
   const [socket, setSocket] = useState(null);
   const [currentMessage, setCurrentMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [renderedMessages, setRenderedMessages] = useState([]);
-  const assistantChoice = new URLSearchParams(location.search).get('assistantChoice');
   const [showOverlay, setShowOverlay] = useState(false);
   const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
   const [password, setPassword] = useState('');
@@ -80,8 +80,8 @@ function Chat() {
   }, [assistantChoice]);
 
   useEffect(() => {
-    sessionStorage.setItem('chatMessages', JSON.stringify(messages));
-  }, [messages]);
+    sessionStorage.setItem(`chatMessages_${assistantChoice}`, JSON.stringify(messages));
+  }, [messages, assistantChoice]);
 
   useEffect(() => {
     const ws = new WebSocket(`wss://backend-ckmm.onrender.com/ws/stream/${assistantChoice}/`);
@@ -150,7 +150,20 @@ function Chat() {
   useEffect(() => {
     const processedMessages = messages.map(message => ({
       ...message,
-      htmlContent: <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
+      htmlContent: (
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{
+            a: ({ children, href }) => (
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                {children}
+              </a>
+            ),
+          }}
+        >
+          {message.content}
+        </ReactMarkdown>
+      ),
     }));
     setRenderedMessages(processedMessages);
   }, [messages]);
