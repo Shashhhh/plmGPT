@@ -96,7 +96,7 @@ export default function Avatars() {
       <ProfileCard 
         name="Thomas King" 
         avatarSrc="/TJKing.jpg"
-        description="Hi, I am a senior at Saint Louis University studying Marketing and Data Analytics. I am a driven sales professional with a freshperspective on sales automation and a deep passion for innovation. With several year of experience in software sales, I'e recongized the overwhelming potential of AI in ehancing "
+        description="Hi, I am a senior at Saint Louis University studying Marketing and Data Analytics. With several years in software sales, I've developed AI-driven tools that streamline the sales cycle, boosting efficiency and aligning solutions with client needs. My passion for sales automation and customer-focused innovations drive me to create tailored strategies that enhance operational effectiveness."
         linkedinUrl="https://www.linkedin.com/in/thomasj-king"
         avatarRotation={0}
       />
