@@ -11,7 +11,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import PillButton from './pillButton';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Menu, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePropRef, youtubeGPTRef, caseStudyFinderRef }) {
@@ -142,36 +142,3 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
         </ThemeProvider>
     );
 }
-/*
-<Button
-                            variant="text"
-                            sx={{ color: 'inherit', mr: 1}}
-                            onMouseEnter={handleMenuOpen}
-                        >
-                            Sales
-                        </Button>
-                        <Menu
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={handleMenuClose}
-                            MenuListProps={{
-                                onMouseLeave: handleMenuClose,
-                            }}
-                        >
-                            <MenuItem onClick={handleMenuClose}>Item 1</MenuItem>
-                            <MenuItem onClick={handleMenuClose}>Item 2</MenuItem>
-                            <MenuItem onClick={handleMenuClose}>Item 3</MenuItem>
-                        </Menu>
-                        <Button
-                            variant="text"
-                            sx={{ color: 'inherit', mr: 1}}
-                        >
-                            About
-                        </Button>
-                        <Button
-                            variant="text"
-                            sx={{ color: 'inherit', mr: 'auto'}}
-                        >
-                            Questions
-                        </Button>
-*/

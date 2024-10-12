@@ -15,7 +15,7 @@ const ProfileCard = ({
 }) => (
   <Card sx={{ 
     width: 275,
-    height: 550,
+    height: 575,
     display: 'flex',
     flexDirection: 'column', 
   }}>
@@ -26,7 +26,7 @@ const ProfileCard = ({
         width: '12rem', 
         height: '12rem',
         transform: `rotate(${avatarRotation}deg)`,
-        mt: 3,
+        mt: 2,
         alignSelf: 'center',
       }}
     />
@@ -44,7 +44,7 @@ const ProfileCard = ({
       </Typography>
     </CardContent>
     {(linkedinUrl || githubUrl) && (
-      <CardActions sx={{ justifyContent: 'center', paddingBottom: 2 }}>
+      <CardActions sx={{ justifyContent: 'center', mb: 2 }}>
         {linkedinUrl && (
           <IconButton
             size="large"
@@ -96,7 +96,7 @@ export default function Avatars() {
       <ProfileCard 
         name="Thomas King" 
         avatarSrc="/TJKing.jpg"
-        description="Hi, I am a senior at Saint Louis University studying Marketing and Data Analytics. With several years in software sales, I've developed AI-driven tools that streamline the sales cycle, boosting efficiency and aligning solutions with client needs. My passion for sales automation and customer-focused innovations drive me to create tailored strategies that enhance operational effectiveness."
+        description="Hi, I am a senior at Saint Louis University studying Marketing and Data Analytics. With years in software sales, I've developed AI-driven tools to streamline the sales cycle, boost efficiency, and align solutions with client needs. My passion for sales automation and   innovations drive me to create tailored strategies that enhance operational effectiveness."
         linkedinUrl="https://www.linkedin.com/in/thomasj-king"
         avatarRotation={0}
       />
