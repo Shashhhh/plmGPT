@@ -8,7 +8,8 @@ import { IconButton, TextField, Button } from '@mui/material';
 import ChatIcon from '@mui/icons-material/Chat';
 import { motion } from 'framer-motion';
 import PillButton from '../components/pillButton';
-
+import { Avatar } from '@mui/material';
+import MemoryIcon from '@mui/icons-material/Memory';
 function Chat() {
   const location = useLocation();
   const assistantChoice = new URLSearchParams(location.search).get('assistantChoice');
@@ -242,7 +243,7 @@ function Chat() {
       )}
       <div className={`chat ${showOverlay ? 'blurred disabled' : ''}`}>
         <div className='pageHeader'>
-          <h3>{assistantChoice}</h3>
+          <h3>Siemens GPT</h3>
           <IconButton
             size="large"
             edge="end"
@@ -254,16 +255,32 @@ function Chat() {
           </IconButton>
         </div>
         <div className='chatScreen' ref={chatScreenRef}>
-          {renderedMessages.map((message, index) => (
-            <div
-              key={index}
-              className={`messageContainer ${message.isUserMessage ? 'userMessage' : 'responseMessage'}`}
-            >
-              <div className="messageText">
-                {message.htmlContent}
-              </div>
-            </div>
-          ))}
+        {renderedMessages.map((message, index) => (
+  <div
+    key={index}
+    className={`messageRow ${message.isUserMessage ? 'userMessageRow' : 'responseMessageRow'}`}
+  >
+    {!message.isUserMessage && (
+      <Avatar
+        alt="Assistant Avatar" 
+        className="avatarIcon"
+        sx={{
+          backgroundColor: 'transparent',
+          border: '1px solid #3d3d3d',
+          color: 'rgba(255, 255, 255, 0.87)',
+        }}
+        >
+        <MemoryIcon/>
+      </Avatar>
+
+    )}
+    <div className={`messageContainer ${message.isUserMessage ? 'userMessage' : 'responseMessage'}`}>
+      <div className="messageText">
+        {message.htmlContent}
+      </div>
+    </div>
+  </div>
+))}
           {loading && <div className="loading"></div>}
         </div>
         <div className='textInputBox'>
