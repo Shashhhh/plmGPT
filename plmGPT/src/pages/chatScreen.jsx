@@ -10,7 +10,8 @@ import { motion } from 'framer-motion';
 import '@styles/chatScreen.css';
 import PillButton from '../components/pillButton';
 import SaveIcon from '@mui/icons-material/Save';
-
+import { ring } from 'ldrs';
+ring.register();
 function Chat() {
   const location = useLocation();
   const assistantChoice = useMemo(() => new URLSearchParams(location.search).get('assistantChoice'), [location.search]);
@@ -210,8 +211,6 @@ function Chat() {
     if (socket && socket.readyState === WebSocket.OPEN) {
       setLoading(true);
       socket.send(text);
-    } else {
-      setErrorMessage('Error: WebSocket connection is not open');
     }
   }, [socket]);
 
@@ -426,14 +425,26 @@ const ChatInput = ({ input, setInput, handleSend, handleInputKeyDown, loading })
           onKeyDown={handleInputKeyDown}
           aria-label="Chat Input"
         />
-        <button
-          className={`sendButton ${loading ? 'disabledButton' : ''}`}
-          onClick={handleSend}
-          disabled={loading}
-          aria-label="Send Message"
-        >
-          <FaArrowUp className='arrowIcon' />
+
+        {loading ? (
+          <button className="sendButton" disabled>
+          <l-ring
+            size="30"
+            stroke="4"
+            bg-opacity="0"
+            speed="2" 
+            color="white" 
+          ></l-ring>
         </button>
+        ) : (
+          <button
+            className="sendButton"
+            onClick={handleSend}
+            aria-label="Send Message"
+          >
+            <FaArrowUp className='arrowIcon' />
+          </button>
+        )}
       </div>
     </div>
   );
