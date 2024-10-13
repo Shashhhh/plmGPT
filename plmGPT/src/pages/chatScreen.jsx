@@ -106,7 +106,6 @@ function Chat() {
       if (responseTimeoutRef.current) {
         clearTimeout(responseTimeoutRef.current);
       }
-
       if (responseData.delta) {
         setLoading(false)
         if (!isAssistantMessagePending.current) {
@@ -138,7 +137,7 @@ function Chat() {
         responseTimeoutRef.current = setTimeout(() => {
           setLoading(false);
           isAssistantMessagePending.current = false;
-        }, 1000); // Timeout duration in milliseconds
+        }, 3000); // Timeout duration in milliseconds
       } else {
         // Handle any other messages or explicit end signal
         // For example, if responseData.type === 'end'
