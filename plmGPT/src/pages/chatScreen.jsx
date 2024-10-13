@@ -1,33 +1,66 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo, useReducer } from 'react';
+import { useLocation } from 'react-router-dom';
+import { IconButton, TextField, Button, Avatar } from '@mui/material';
+import ChatIcon from '@mui/icons-material/Chat';
+import MemoryIcon from '@mui/icons-material/Memory';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import '@styles/chatScreen.css';
 import { FaArrowUp } from "react-icons/fa6";
-import { useLocation } from 'react-router-dom';
-import { IconButton, TextField, Button } from '@mui/material';
-import ChatIcon from '@mui/icons-material/Chat';
 import { motion } from 'framer-motion';
+import '@styles/chatScreen.css';
 import PillButton from '../components/pillButton';
-import { Avatar } from '@mui/material';
-import MemoryIcon from '@mui/icons-material/Memory';
+
 function Chat() {
   const location = useLocation();
-  const assistantChoice = new URLSearchParams(location.search).get('assistantChoice');
-  const [messages, setMessages] = useState(() => {
+  const assistantChoice = useMemo(() => new URLSearchParams(location.search).get('assistantChoice'), [location.search]);
+
+  /** State Management **/
+  const initialMessages = useMemo(() => {
     const storedMessages = sessionStorage.getItem(`chatMessages_${assistantChoice}`);
     return storedMessages ? JSON.parse(storedMessages) : [];
-  });
+  }, [assistantChoice]);
+
+  const messageReducer = (state, action) => {
+    switch (action.type) {
+      case 'ADD_MESSAGE':
+        return [...state, action.payload];
+      case 'APPEND_TO_LAST_MESSAGE':
+        return state.map((msg, index) =>
+          index === state.length - 1
+            ? { ...msg, content: msg.content + action.payload }
+            : msg
+        );
+      case 'CLEAR_MESSAGES':
+        return [];
+      default:
+        return state;
+    }
+  };
+
+  const [messages, dispatch] = useReducer(messageReducer, initialMessages);
+  const messagesRef = useRef(messages);
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
   const [socket, setSocket] = useState(null);
-  const [currentMessage, setCurrentMessage] = useState('');
+  const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [renderedMessages, setRenderedMessages] = useState([]);
   const [showOverlay, setShowOverlay] = useState(false);
   const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
   const [password, setPassword] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordError, setPasswordError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const chatScreenRef = useRef(null);
 
+  // Ref to track if we're in the middle of an assistant's message
+  const isAssistantMessagePending = useRef(false);
+
+  // Ref to handle the response timeout
+  const responseTimeoutRef = useRef(null);
+
+  /** Animations **/
   const overlayAnimation = {
     hidden: { opacity: 0, scale: 0.9 },
     visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } },
@@ -40,18 +73,117 @@ function Chat() {
     exit: { opacity: 0, x: 100, transition: { duration: 0.5 } }
   };
 
-  const handleOverlay = () => {
+  /** Effects **/
+  useEffect(() => {
+    const hasVisited = sessionStorage.getItem('hasVisited');
+    if (!hasVisited) {
+      setShowOverlay(true);
+    }
+    if (assistantChoice === 'Value_prop' || assistantChoice === 'Machinist') {
+      setIsAuthenticated(true);
+    } else {
+      setShowPasswordPrompt(true);
+    }
+  }, [assistantChoice]);
+
+  useEffect(() => {
+    sessionStorage.setItem(`chatMessages_${assistantChoice}`, JSON.stringify(messages));
+  }, [messages, assistantChoice]);
+
+  useEffect(() => {
+    const ws = new WebSocket(`wss://backend-ckmm.onrender.com/ws/stream/${assistantChoice}/`);
+
+    ws.addEventListener('open', () => {
+      console.log('WebSocket connection opened');
+    });
+
+    ws.addEventListener('message', (event) => {
+      const responseData = JSON.parse(event.data);
+      console.log('Received message:', responseData);
+
+      // Clear previous timeout
+      if (responseTimeoutRef.current) {
+        clearTimeout(responseTimeoutRef.current);
+      }
+
+      if (responseData.delta) {
+        setLoading(false)
+        if (!isAssistantMessagePending.current) {
+          // Start of a new assistant message
+          dispatch({
+            type: 'ADD_MESSAGE',
+            payload: { content: responseData.delta, isUserMessage: false },
+          });
+          isAssistantMessagePending.current = true;
+
+          // Manually update messagesRef.current
+          messagesRef.current = [...messagesRef.current, { content: responseData.delta, isUserMessage: false }];
+        } else {
+          // Append to the existing assistant message
+          dispatch({
+            type: 'APPEND_TO_LAST_MESSAGE',
+            payload: responseData.delta,
+          });
+
+          // Manually update messagesRef.current
+          messagesRef.current = messagesRef.current.map((msg, index) =>
+            index === messagesRef.current.length - 1
+              ? { ...msg, content: msg.content + responseData.delta }
+              : msg
+          );
+        }
+
+        // Set new timeout to detect end of response
+        responseTimeoutRef.current = setTimeout(() => {
+          setLoading(false);
+          isAssistantMessagePending.current = false;
+        }, 1000); // Timeout duration in milliseconds
+      } else {
+        // Handle any other messages or explicit end signal
+        // For example, if responseData.type === 'end'
+        if (responseData.type === 'end') {
+          setLoading(false);
+          isAssistantMessagePending.current = false;
+        }
+      }
+    });
+
+    ws.addEventListener('error', (error) => {
+      console.error('WebSocket error:', error);
+      setLoading(false);
+      isAssistantMessagePending.current = false;
+    });
+
+    ws.addEventListener('close', () => {
+      console.log('WebSocket connection closed');
+      setLoading(false);
+      isAssistantMessagePending.current = false;
+    });
+
+    setSocket(ws);
+
+    return () => {
+      ws.close();
+    };
+  }, [assistantChoice]);
+
+  useEffect(() => {
+    if (chatScreenRef.current) {
+      chatScreenRef.current.scrollTop = chatScreenRef.current.scrollHeight;
+    }
+  }, [messages, loading]);
+
+  /** Handlers **/
+  const handleOverlay = useCallback(() => {
     setShowOverlay(false);
     sessionStorage.setItem('hasVisited', 'true');
-  };
+  }, []);
 
-  const handlePasswordSubmit = async () => {
+  const handlePasswordSubmit = useCallback(async () => {
     try {
       const response = await fetch('https://backend-ckmm.onrender.com/check-password/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
       });
       const data = await response.json();
@@ -64,92 +196,47 @@ function Chat() {
       }
     } catch (error) {
       console.error('Error checking password:', error);
+      setErrorMessage('An error occurred while verifying the password.');
     }
-  };
+  }, [password]);
 
-  useEffect(() => {
-    const hasVisited = sessionStorage.getItem('hasVisited');
-    if (!hasVisited) {
-      setShowOverlay(true);
-    }
-    if (assistantChoice === 'Value_prop' || assistantChoice === 'Machinist') {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
-      setShowPasswordPrompt(true);
-    }
-  }, [assistantChoice]);
-
-  useEffect(() => {
-    sessionStorage.setItem(`chatMessages_${assistantChoice}`, JSON.stringify(messages));
-  }, [messages, assistantChoice]);
-
-  useEffect(() => {
-    const ws = new WebSocket(`wss://backend-ckmm.onrender.com/ws/stream/${assistantChoice}/`);
-    ws.onopen = () => {
-      console.log('WebSocket connection opened');
-    };
-
-    ws.onmessage = (event) => {
-      const responseData = JSON.parse(event.data);
-      if (responseData.delta) {
-        updateCurrentMessage(responseData.delta);
-      } else if (responseData.error) {
-        alert('Error: ' + responseData.error);
-      }
-      setLoading(false);
-    };
-
-    ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
-      setLoading(false);
-    };
-
-    ws.onclose = () => {
-      console.log('WebSocket connection closed');
-      setLoading(false);
-    };
-
-    setSocket(ws);
-
-    return () => {
-      ws.close();
-    };
-  }, [assistantChoice]);
-
-  const updateCurrentMessage = (deltaText) => {
-    setCurrentMessage(prev => prev + deltaText);
-  };
-
-  const onSend = (text) => {
+  const onSend = useCallback((text) => {
     const newUserMessage = { content: text, isUserMessage: true };
-    setMessages(prevMessages => [...prevMessages, newUserMessage]);
+    dispatch({ type: 'ADD_MESSAGE', payload: newUserMessage });
 
-    if (socket) {
+    // Manually update messagesRef.current
+    messagesRef.current = [...messagesRef.current, newUserMessage];
+
+    if (socket && socket.readyState === WebSocket.OPEN) {
       setLoading(true);
       socket.send(text);
     } else {
-      alert('Error: WebSocket connection is not open');
+      setErrorMessage('Error: WebSocket connection is not open');
     }
-  };
+  }, [socket]);
 
-  useEffect(() => {
-    if (currentMessage.trim() !== '') {
-      const lastMessageIndex = messages.length - 1;
-      if (lastMessageIndex >= 0 && !messages[lastMessageIndex].isUserMessage) {
-        setMessages(prevMessages => [
-          ...prevMessages.slice(0, lastMessageIndex),
-          { ...prevMessages[lastMessageIndex], content: prevMessages[lastMessageIndex].content + currentMessage }
-        ]);
-      } else {
-        setMessages(prevMessages => [...prevMessages, { content: currentMessage, isUserMessage: false }]);
-      }
-      setCurrentMessage('');
+  const handleSend = useCallback(() => {
+    if (input.trim() !== '') {
+      onSend(input);
+      setInput('');
     }
-  }, [currentMessage, messages]);
+  }, [input, onSend]);
 
-  useEffect(() => {
-    const processedMessages = messages.map(message => ({
+  const handleClearMessages = useCallback(() => {
+    dispatch({ type: 'CLEAR_MESSAGES' });
+    messagesRef.current = [];
+    sessionStorage.removeItem(`chatMessages_${assistantChoice}`);
+  }, [assistantChoice]);
+
+  const handleInputKeyDown = useCallback((e) => {
+    if (e.key === 'Enter') {
+      handleSend();
+    }
+  }, [handleSend]);
+
+  /** Rendered Components **/
+  const renderedMessages = useMemo(() => {
+    return messages.map((message) => ({
       ...message,
       htmlContent: (
         <ReactMarkdown
@@ -166,46 +253,27 @@ function Chat() {
         </ReactMarkdown>
       ),
     }));
-    setRenderedMessages(processedMessages);
   }, [messages]);
 
-  useEffect(() => {
-    if (chatScreenRef.current) {
-      chatScreenRef.current.scrollTop = chatScreenRef.current.scrollHeight;
-    }
-  }, [renderedMessages, loading]);
-
-  const [input, setInput] = useState('');
-  const handleSend = () => {
-    if (input.trim() !== '') {
-      onSend(input);
-      setInput('');
-    }
-  };
-
-  const handleClearMessages = () => {
-    setMessages([]);
-    sessionStorage.removeItem('chatMessages');
-  };
-
-  if (!isAuthenticated) {
+  /** Conditional Rendering **/
+  if (showPasswordPrompt && !isAuthenticated) {
     return (
       <div className="container">
         <div className='passwordContainer'>
           <h2>Password Protected</h2>
-          <p>This assistant is password protected. Please enter the password to continue. To return to the homepage, click the arrow at the top left.</p>
+          <p>
+            This assistant is password protected. Please enter the password to continue.
+            To return to the homepage, click the arrow at the top left.
+          </p>
           <TextField
             type="password"
             label="Enter Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handlePasswordSubmit();
-              }
-            }}
+            onKeyDown={(e) => e.key === 'Enter' && handlePasswordSubmit()}
             error={Boolean(passwordError)}
             helperText={passwordError}
+            aria-label="Password Input"
           />
           <Button className="submitButton" onClick={handlePasswordSubmit}>Submit</Button>
         </div>
@@ -222,12 +290,12 @@ function Chat() {
       variants={chatAnimation}
     >
       {showOverlay && (
-        <motion.dialog 
+        <motion.dialog
           className='welcomeDialog'
-          open 
-          variants={overlayAnimation} 
-          initial="hidden" 
-          animate="visible" 
+          open
+          variants={overlayAnimation}
+          initial="hidden"
+          animate="visible"
           exit="exit"
         >
           <span style={{ fontWeight: 'bold' }}>Welcome!</span>
@@ -248,66 +316,91 @@ function Chat() {
             size="large"
             edge="end"
             color="inherit"
-            aria-label="newChat"
-            onClick={handleClearMessages} 
+            aria-label="Clear Chat"
+            onClick={handleClearMessages}
           >
             <ChatIcon />
           </IconButton>
         </div>
         <div className='chatScreen' ref={chatScreenRef}>
-        {renderedMessages.map((message, index) => (
-  <div
-    key={index}
-    className={`messageRow ${message.isUserMessage ? 'userMessageRow' : 'responseMessageRow'}`}
-  >
-    {!message.isUserMessage && (
-      <Avatar
-        alt="Assistant Avatar" 
-        className="avatarIcon"
-        sx={{
-          backgroundColor: 'transparent',
-          border: '1px solid #3d3d3d',
-          color: 'rgba(255, 255, 255, 0.87)',
-        }}
-        >
-        <MemoryIcon/>
-      </Avatar>
-
-    )}
-    <div className={`messageContainer ${message.isUserMessage ? 'userMessage' : 'responseMessage'}`}>
-      <div className="messageText">
-        {message.htmlContent}
-      </div>
-    </div>
-  </div>
-))}
-          {loading && <div className="loading"></div>}
+          {renderedMessages.map((message, index) => (
+            <MessageRow key={index} message={message} />
+          ))}
+          {loading && <div className="loading" aria-label="Loading"></div>}
+          {errorMessage && <div className="error">{errorMessage}</div>}
         </div>
-        <div className='textInputBox'>
-          <div className="inputWrapper">
-            <input
-              type="text"
-              className="textInput"
-              placeholder="Ask anything"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleSend();
-                }
-              }}
-            />
-            <button 
-              className={`sendButton ${loading ? 'disabledButton' : ''}`} 
-              onClick={handleSend} 
-              disabled={loading}>
-              <FaArrowUp className='arrowIcon' />
-            </button>
-          </div>
-        </div>
+        <ChatInput
+          input={input}
+          setInput={setInput}
+          handleSend={handleSend}
+          handleInputKeyDown={handleInputKeyDown}
+          loading={loading}
+        />
       </div>
     </motion.div>
   );
 }
+
+/** Extracted Components **/
+const MessageRow = ({ message }) => {
+  return (
+    <div
+      className={`messageRow ${message.isUserMessage ? 'userMessageRow' : 'responseMessageRow'}`}
+    >
+      {/* Assistant's Avatar */}
+      {!message.isUserMessage && (
+        <div className="avatarContainer">
+          <Avatar
+            alt="Assistant Avatar"
+            className="avatarIcon"
+            sx={{
+              backgroundColor: 'transparent',
+              border: '1px solid #3d3d3d',
+              color: 'rgba(255, 255, 255, 0.87)',
+            }}
+          >
+            <MemoryIcon />
+          </Avatar>
+        </div>
+      )}
+
+      {/* Message Content */}
+      <div className={`messageContainer ${message.isUserMessage ? 'userMessage' : 'responseMessage'}`}>
+        <div className="messageText">
+          {message.htmlContent}
+        </div>
+      </div>
+
+      {/* Spacer for alignment */}
+      {message.isUserMessage && <div className="spacer" />}
+    </div>
+  );
+};
+
+const ChatInput = ({ input, setInput, handleSend, handleInputKeyDown, loading }) => {
+  return (
+    <div className='textInputBox'>
+      <div className="inputWrapper">
+        <input
+          type="text"
+          className="textInput"
+          placeholder="Ask anything"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleInputKeyDown}
+          aria-label="Chat Input"
+        />
+        <button
+          className={`sendButton ${loading ? 'disabledButton' : ''}`}
+          onClick={handleSend}
+          disabled={loading}
+          aria-label="Send Message"
+        >
+          <FaArrowUp className='arrowIcon' />
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default Chat;
