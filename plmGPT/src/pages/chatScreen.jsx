@@ -48,7 +48,6 @@ function Chat() {
   const [socket, setSocket] = useState(null);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(false);
   const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -63,11 +62,6 @@ function Chat() {
   const responseTimeoutRef = useRef(null);
 
   /** Animations **/
-  const overlayAnimation = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: 'easeOut' } },
-    exit: { opacity: 0, scale: 0.9, transition: { duration: 0.3 } }
-  };
 
   const chatAnimation = {
     initial: { opacity: 0, x: -100 },
@@ -77,10 +71,6 @@ function Chat() {
 
   /** Effects **/
   useEffect(() => {
-    const hasVisited = sessionStorage.getItem('hasVisited');
-    if (!hasVisited) {
-      setShowOverlay(true);
-    }
     if (assistantChoice === 'Value_prop' || assistantChoice === 'Machinist') {
       setIsAuthenticated(true);
     } else {
@@ -175,10 +165,6 @@ function Chat() {
   }, [messages, loading]);
 
   /** Handlers **/
-  const handleOverlay = useCallback(() => {
-    setShowOverlay(false);
-    sessionStorage.setItem('hasVisited', 'true');
-  }, []);
 
   const handlePasswordSubmit = useCallback(async () => {
     try {
@@ -253,32 +239,6 @@ function Chat() {
       ),
     }));
   }, [messages]);
-
-  /** Conditional Rendering **/
-  if (showPasswordPrompt && !isAuthenticated) {
-    return (
-      <div className="container">
-        <div className='passwordContainer'>
-          <h2>Password Protected</h2>
-          <p>
-            This assistant is password protected. Please enter the password to continue.
-            To return to the homepage, click the arrow at the top left.
-          </p>
-          <TextField
-            type="password"
-            label="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handlePasswordSubmit()}
-            error={Boolean(passwordError)}
-            helperText={passwordError}
-            aria-label="Password Input"
-          />
-          <Button className="submitButton" onClick={handlePasswordSubmit}>Submit</Button>
-        </div>
-      </div>
-    );
-  }
   const handleSaveChat = useCallback(() => {
     // Format the messages into a Markdown string
     const formattedMessages = messages
@@ -304,6 +264,32 @@ function Chat() {
     document.body.removeChild(link);
   }, [messages]);
   
+  /** Conditional Rendering **/
+  if (showPasswordPrompt && !isAuthenticated) {
+    return (
+      <div className="container">
+        <div className='passwordContainer'>
+          <h2>Password Protected</h2>
+          <p>
+            This assistant is password protected. Please enter the password to continue.
+            To return to the homepage, click the arrow at the top left.
+          </p>
+          <TextField
+            type="password"
+            label="Enter Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handlePasswordSubmit()}
+            error={Boolean(passwordError)}
+            helperText={passwordError}
+            aria-label="Password Input"
+          />
+          <Button className="submitButton" onClick={handlePasswordSubmit}>Submit</Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <motion.div
       className='container'
@@ -312,29 +298,9 @@ function Chat() {
       exit="exit"
       variants={chatAnimation}
     >
-      {showOverlay && (
-        <motion.dialog
-          className='welcomeDialog'
-          open
-          variants={overlayAnimation}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-        >
-          <span style={{ fontWeight: 'bold' }}>Welcome!</span>
-          <p>
-            Welcome to the Siemens AI Chat Screen! Ready to explore innovative solutions and drive your projects forward? Click the "Let's Begin" button to get started and unlock the full potential of our tools and insights!
-          </p>
-          <form method="dialog">
-            <div className="dialogButtonContainer">
-              <PillButton onClick={handleOverlay}>Let's Begin</PillButton>
-            </div>
-          </form>
-        </motion.dialog>
-      )}
-      <div className={`chat ${showOverlay ? 'blurred disabled' : ''}`}>
+      <div className="chat">
         <div className='pageHeader'>
-          <h3>Siemens GPT</h3>
+          <div>Siemens GPT</div>
           <div className="buttonGroup">
           <IconButton
           size="large"
@@ -419,7 +385,7 @@ const ChatInput = ({ input, setInput, handleSend, handleInputKeyDown, loading })
         <input
           type="text"
           className="textInput"
-          placeholder="Ask anything"
+          placeholder="Message Siemens GPT"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleInputKeyDown}
