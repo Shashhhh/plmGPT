@@ -9,6 +9,7 @@ import { FaArrowUp } from "react-icons/fa6";
 import { motion } from 'framer-motion';
 import '@styles/chatScreen.css';
 import PillButton from '../components/pillButton';
+import SaveIcon from '@mui/icons-material/Save';
 
 function Chat() {
   const location = useLocation();
@@ -280,7 +281,31 @@ function Chat() {
       </div>
     );
   }
-
+  const handleSaveChat = useCallback(() => {
+    // Format the messages into a Markdown string
+    const formattedMessages = messages
+      .map((message) => {
+        const sender = message.isUserMessage ? '**You**' : '**Assistant**';
+        return `${sender}:\n\n${message.content}`;
+      })
+      .join('\n\n---\n\n');
+  
+    // Create a Blob from the formatted messages with Markdown MIME type
+    const blob = new Blob([formattedMessages], { type: 'text/markdown;charset=utf-8' });
+  
+    // Create a link element to trigger the download
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'chat_conversation.md';
+  
+    // Append the link to the body and trigger a click
+    document.body.appendChild(link);
+    link.click();
+  
+    // Clean up by removing the link
+    document.body.removeChild(link);
+  }, [messages]);
+  
   return (
     <motion.div
       className='container'
@@ -312,6 +337,16 @@ function Chat() {
       <div className={`chat ${showOverlay ? 'blurred disabled' : ''}`}>
         <div className='pageHeader'>
           <h3>Siemens GPT</h3>
+          <div className="buttonGroup">
+          <IconButton
+          size="large"
+          edge="end"
+          color="inherit"
+          aria-label="Save Chat"
+          onClick={handleSaveChat}
+        >
+          <SaveIcon />
+        </IconButton>
           <IconButton
             size="large"
             edge="end"
@@ -321,6 +356,8 @@ function Chat() {
           >
             <ChatIcon />
           </IconButton>
+          </div>
+ 
         </div>
         <div className='chatScreen' ref={chatScreenRef}>
           {renderedMessages.map((message, index) => (
