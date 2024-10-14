@@ -7,10 +7,10 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { FaArrowUp } from "react-icons/fa6";
 import { motion } from 'framer-motion';
-import '@styles/chatScreen.css';
-import PillButton from '../components/pillButton';
+import '@styles/chatScreen.css';  
 import SaveIcon from '@mui/icons-material/Save';
 import { ring } from 'ldrs';
+import { TypeAnimation } from 'react-type-animation';
 ring.register();
 function Chat() {
   const location = useLocation();
@@ -52,7 +52,6 @@ function Chat() {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordError, setPasswordError] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const chatScreenRef = useRef(null);
 
   // Ref to track if we're in the middle of an assistant's message
@@ -183,7 +182,6 @@ function Chat() {
       }
     } catch (error) {
       console.error('Error checking password:', error);
-      setErrorMessage('An error occurred while verifying the password.');
     }
   }, [password]);
 
@@ -265,6 +263,10 @@ function Chat() {
   }, [messages]);
   
   /** Conditional Rendering **/
+  const hasUserSentMessage = useMemo(() => {
+    return messages.some(message => message.isUserMessage);
+  }, [messages]);
+  
   if (showPasswordPrompt && !isAuthenticated) {
     return (
       <div className="container">
@@ -321,14 +323,27 @@ function Chat() {
             <ChatIcon />
           </IconButton>
           </div>
- 
         </div>
         <div className='chatScreen' ref={chatScreenRef}>
+        {!hasUserSentMessage && (
+            <>
+              <div className="backgroundTextContainer">
+                <TypeAnimation
+                  sequence={["Start typing below to get started."]}
+                  wrapper="span"
+                  speed={50}
+                  style={{ fontSize: '2em', display: 'inline-block' }}
+                />
+              </div>
+              <p className="disclaimerText">
+                You may experience some bugs as Siemens GPT is still in development.
+              </p>
+            </>
+          )}
           {renderedMessages.map((message, index) => (
             <MessageRow key={index} message={message} />
           ))}
           {loading && <div className="loading" aria-label="Loading"></div>}
-          {errorMessage && <div className="error">{errorMessage}</div>}
         </div>
         <ChatInput
           input={input}
