@@ -212,10 +212,10 @@ function Chat() {
   }, [assistantChoice]);
 
   const handleInputKeyDown = useCallback((e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !loading) {
       handleSend();
     }
-  }, [handleSend]);
+  }, [handleSend, loading]);
 
   /** Rendered Components **/
   const renderedMessages = useMemo(() => {
