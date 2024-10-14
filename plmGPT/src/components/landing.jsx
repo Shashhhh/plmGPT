@@ -1,36 +1,46 @@
 import React from 'react';
 import Gradient from '../components/shaderGradient';
-import { motion, useInView } from 'framer-motion';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import '@styles/landing.css';
-import { useRef } from 'react';
-import { spring } from '../components/animationVariants';
+import { TypeAnimation } from 'react-type-animation';
 function Landing() {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true });
-
     return (
         <div className='introContainer'>
             <Gradient />
-            <div className='textContainer'>
-                <motion.h1 
-                    ref={ref}
-                    initial="offscreen" 
-                    animate={isInView ? "onscreen" : "offscreen"}
-                    variants={spring} 
-                    className='welcomeHeader'
-                >
-                    SIEMENS GPT EXPERIENCE
-                </motion.h1>
-                <div className='scrollContainer'>
-                    <p className='scrollText'>
-                        SCROLL FOR MORE
-                    </p>
-                    <ArrowDownwardIcon />
-                </div>
+            <div className='welcomeHeader'>
+                <TypeAnimation
+                    sequence={[
+                        'Welcome to Siemens GPT',
+                        1500,
+                        'Smart. Efficient. AI-Driven.',
+                        1000,
+                        'Redefine Success with Siemens GPT',
+                        1000,
+                        'Streamline Your Workflow with AI',
+                        1000,
+                        'Enhance Your Sales Strategy',
+                        1000,
+                        'Optimize Your Product Lifecycle',
+                        1000,
+                        'Empower Your Team with AI Assistants',
+                        1000,
+                        'Discover Intelligent Business Automation',
+                        1000,
+                    ]}
+                    wrapper="span"
+                    speed={50}
+                    repeat={Infinity}
+                />
+            </div>
+            <div className='scrollContainer'>
+                <p className='scrollText'>
+                    SCROLL FOR MORE
+                </p>
+                <ArrowDownwardIcon />
             </div>
         </div>
     );
 }
+
 
 export default Landing;
