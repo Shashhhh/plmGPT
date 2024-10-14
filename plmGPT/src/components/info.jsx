@@ -19,6 +19,7 @@ function Info() {
                 className='textContainer'
             >
                 <div className='infoTextContainer'>
+                    
                     <div className='statContainer'>
                         {inView && <CountUp className="count" start={0} end={450} duration={3} suffix="+"/>}
                         <p>

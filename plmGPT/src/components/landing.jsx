@@ -19,12 +19,10 @@ function Landing() {
                         'Streamline Your Workflow with AI',
                         1000,
                         'Enhance Your Sales Strategy',
-                        1000,
+                        1000,   
                         'Optimize Your Product Lifecycle',
                         1000,
-                        'Empower Your Team with AI Assistants',
-                        1000,
-                        'Discover Intelligent Business Automation',
+                        'Empower Your Team with AI',
                         1000,
                     ]}
                     wrapper="span"
