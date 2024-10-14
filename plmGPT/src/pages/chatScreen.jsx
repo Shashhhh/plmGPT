@@ -352,6 +352,9 @@ function Chat() {
           handleInputKeyDown={handleInputKeyDown}
           loading={loading}
         />
+        <p className='disclaimerText2'>
+          Siemen GPT can make mistakes, so please double check important info.
+        </p>
       </div>
     </motion.div>
   );

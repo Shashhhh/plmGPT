@@ -43,7 +43,7 @@
     border-radius: 15px;
     border: 1px solid white;
     width: 75vw;
-    height: 90vh;
+    height: 95vh;
     background-color: #1e1e1e;
     flex-direction: column;
     overflow: hidden;
@@ -181,14 +181,12 @@
         }
   
     }
-    
     .textInputBox
     {
       display: flex;
       align-items: center;
       justify-content: center;
       padding-left: 10px;
-      padding-bottom: 10px;
       padding-right: 10px;
       .inputWrapper {
         display: flex;
@@ -250,7 +248,12 @@
         }
         
       }
-    
+    }
+    .disclaimerText2 {
+      color: #6e6e6e;
+      font-size: 0.75rem;
+      text-align: center;       
+      margin: 7.5px 0px;  
     }
   }
   
