@@ -97,7 +97,6 @@ function Chat() {
         clearTimeout(responseTimeoutRef.current);
       }
       if (responseData.delta) {
-        setLoading(false)
         if (!isAssistantMessagePending.current) {
           // Start of a new assistant message
           dispatch({
