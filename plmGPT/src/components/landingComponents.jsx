@@ -5,7 +5,7 @@ const ToolDieShop = forwardRef((props, ref) => (
     <LandingTemplate
         ref={ref}
         header="Tool And Die Shop"
-        description="Description"
+        description="Learn about the tool and die business from a machinist with 30 years of experience in CAD/CAM, CNC, and mold design."
         background="/toolshop.jpg"
         path='/chat?assistantChoice=Machinist'
     />
@@ -15,7 +15,7 @@ const ValueProp = forwardRef((props, ref) => (
     <LandingTemplate
         ref={ref}
         header="Value Prop Helper"
-        description="Description"
+        description="Get assistance in crafting compelling value propositions. Understand what makes your product stand out and how to effectively communicate its unique benefits to customers."
         background="/valuePropImg.png"
         path='/chat?assistantChoice=Value_prop'
     />

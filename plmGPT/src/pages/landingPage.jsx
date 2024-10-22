@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import { motion } from 'framer-motion';
 import ButtonAppBar from '../components/navbar';
 import Landing from '../components/landing';
 import Info from '../components/info';
