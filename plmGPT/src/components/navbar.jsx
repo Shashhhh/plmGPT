@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,11 +13,25 @@ import PillButton from './pillButton';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Menu, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import Modal from '@mui/material/Modal';
+
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 600,
+    bgcolor: '#1e1e1e',
+    borderRadius: '15px', 
+    boxShadow: 'rgb(38, 38, 38) 0px 1px 0px 0px inset', 
+    border: '0.5px solid rgb(31, 31, 31)', 
+    p: 2,
+};
 
 export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePropRef, youtubeGPTRef, caseStudyFinderRef }) {
-    const [open, setOpen] = React.useState(false);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
+    const [open, setOpen] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
@@ -29,7 +43,13 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
+    const handleModalOpen = () => {
+        setModalOpen(true);
+    };
 
+    const handleModalClose = () => {
+        setModalOpen(false);
+    };
     const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         '& .MuiTypography-root': {
@@ -98,8 +118,8 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
                                 marginRight: 'auto',
                             }}
                         />
-                        <PillButton>
-                            Support
+                        <PillButton onClick={handleModalOpen}>
+                            Contact
                         </PillButton>
                         <Menu
                             anchorEl={anchorEl}
@@ -138,6 +158,22 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
                 >
                     {DrawerList}
                 </Drawer>
+                <Modal
+                    open={modalOpen}
+                    onClose={handleModalClose}
+                    aria-labelledby="modal-title"
+                    aria-describedby="modal-description"
+                >
+                    <Box sx={modalStyle}>
+                        <h2 id="modal-title">Have a question, suggestion, or spotted a bug?</h2>
+                        <p id="modal-description">
+                        Feel free to reach out! Send an email to{' '}
+                        <a href="mailto:linjay@umich.edu" style={{ color: '#099', textDecoration: 'none' }}>
+                            linjay@umich.edu
+                        </a>, and I'll get back to you as soon as possible.
+                        </p>
+                    </Box>
+                </Modal>
             </Box>
         </ThemeProvider>
     );
