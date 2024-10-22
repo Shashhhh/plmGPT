@@ -176,7 +176,7 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
                         <h2 id="modal-title">Have a question, suggestion, or spotted a bug?</h2>
                         <p id="modal-description">
                         Feel free to reach out! Send an email to{' '}
-                        <a href="mailto:linjay@umich.edu" style={{ color: '#099', textDecoration: 'none' }}>
+                        <a href="mailto:linjay@umich.edu" style={{ color: '#099', textDecoration: 'underline' }}>
                             linjay@umich.edu
                         </a>, and I'll get back to you as soon as possible.
                         </p>
