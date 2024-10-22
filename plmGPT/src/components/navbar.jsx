@@ -14,7 +14,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Menu, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Modal from '@mui/material/Modal';
-
+import Backdrop from '@mui/material/Backdrop';
+import Fade from '@mui/material/Fade';
 const modalStyle = {
     position: 'absolute',
     top: '50%',
@@ -163,7 +164,14 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
                     onClose={handleModalClose}
                     aria-labelledby="modal-title"
                     aria-describedby="modal-description"
+                    closeAfterTransition
+                    slots={{ backdrop: Backdrop }}
+                    slotProps={{
+                    backdrop: {
+                        timeout: 500,
+                    },}}
                 >
+                <Fade in={modalOpen}>
                     <Box sx={modalStyle}>
                         <h2 id="modal-title">Have a question, suggestion, or spotted a bug?</h2>
                         <p id="modal-description">
@@ -173,6 +181,7 @@ export default function ButtonAppBar({ scrollToSection, toolDieShopRef, valuePro
                         </a>, and I'll get back to you as soon as possible.
                         </p>
                     </Box>
+                </Fade>
                 </Modal>
             </Box>
         </ThemeProvider>
